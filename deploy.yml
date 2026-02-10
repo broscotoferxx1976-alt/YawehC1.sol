@@ -1,0 +1,28 @@
+name: Deploy YAWEHC1 Contract
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Hardhat
+        run: npm install --save-dev @nomicfoundation/hardhat-toolbox @openzeppelin/contracts
+
+      - name: Deploy Contract
+        env:
+          PRIVATE_KEY: ${{ secrets.MY_PRIVATE_KEY }}
+          RPC_URL: "TU_URL_DE_RED_AQUÍ" # Ejemplo: https://polygon-rpc.com
+        run: npx hardhat run scripts/deploy.js --network mainnet
+        
